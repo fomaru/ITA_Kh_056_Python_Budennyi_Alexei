@@ -1,1 +1,1 @@
-Command line output
+Command line output and comments
