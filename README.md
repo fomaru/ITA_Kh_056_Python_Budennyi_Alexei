@@ -1,5 +1,6 @@
 Command line output and comments
 
+Task.Linux.1
 Task1.Part1
 
 alex@alex-Vostro-3558:~/Learning$ su
@@ -246,4 +247,91 @@ File types:
 	l : symbolic link
 	
 alex@alex-Vostro-3558:~$ sudo find /etc/ -type f -amin $recently
+
+Task.Linux.2
+
+1. etc/passswd file contains users information structured in such form alex:x:1000:1000:alex,25,666-666-66,999-999-99:/home/alex:/bin/bash. its consists of users name, password, user id and group id. as well as additional information and path to the home directory. etc/group structured in a similar way and stores group name, password, GID, Group List.
+
+2. UDI is used to identify users. it's stored in the third value of the line in /etc/passwd. Users with user id between 1 and 999 can be called system users since they used to run different services etc. From 1000 to 65533  can be considered normal users. There are also two special user root(UID 0) and nobody(UID 65534). root with full access to the system and nobody with no permissions to the system at all. 
+
+3. GID is group identifyier. GID ranges similar to the UID ranges.
+
+4. alex@alex-Vostro-3558:~/Learning$ groups alex
+alex : alex adm cdrom sudo dip plugdev lpadmin lxd sambashare
+
+5. alex@alex-Vostro-3558:~$ sudo adduser test_user
+Adding user `test_user' ...
+Adding new group `test_user' (1001) ...
+Adding new user `test_user' (1001) with group `test_user' ...
+Creating home directory `/home/test_user' ...
+Copying files from `/etc/skel' ...
+New password: 
+Retype new password: 
+passwd: password updated successfully
+Changing the user information for test_user
+Enter the new value, or press ENTER for the default
+	Full Name []: 
+	Room Number []: 
+	Work Phone []: 
+	Home Phone []: 
+	Other []: 
+Is the information correct? [Y/n] y
+
+Basic parameters are username and password everything else is optional.
+
+6. alex@alex-Vostro-3558:~$ sudo usermod -l test_user test_user_changed
+
+7. /etc/skell is a director that is used as a skeleton when creating user's home directory.
+
+8. alex@alex-Vostro-3558:~$ sudo userdel -r test_user
+userdel: test_user mail spool (/var/mail/test_user) not found
+
+9. alex@alex-Vostro-3558:~$ sudo passwd -l test_user
+passwd: password expiry information changed.
+alex@alex-Vostro-3558:~$ sudo passwd -u test_user
+passwd: password expiry information changed.
+
+11. alex@alex-Vostro-3558:~$ ls -l /home/alex/
+total 276
+-rw-r--r--  1 root root    178 Apr 18 12:27 besside.log
+drwxr-xr-x  3 alex alex   4096 Jul 27 13:02 Desktop
+drwxr-xr-x  2 alex alex   4096 Feb 21 13:37 Documents
+...
+
+12. Access rights to a file or a directory set by the owner, group, and everyone. Rights include read, write and execute operations(r, w, x).
+
+13. When a file is created its owner is set as the user who created it and group this user's primary group. 
+
+14. alex@alex-Vostro-3558:~$ touch testFile 
+alex@alex-Vostro-3558:~$ ls -l testFile 
+-rw-rw-r-- 1 alex alex 3 Aug  4 22:41 testFile
+alex@alex-Vostro-3558:~$ chown test_user testFile 
+chown: changing ownership of 'testFile': Operation not permitted
+alex@alex-Vostro-3558:~$ sudo chown test_user testFile 
+[sudo] password for alex: 
+alex@alex-Vostro-3558:~$ ls -l testFile 
+-rw-rw-r-- 1 test_user alex 3 Aug  4 22:41 testFile
+alex@alex-Vostro-3558:~$ sudo chmod -c 777 testFile 
+mode of 'testFile' changed from 0664 (rw-rw-r--) to 0777 (rwxrwxrwx)
+
+15. Access right of reading(4) writing(2) and executing(1)
+represented with a single-digit. For example file with a 666 access
+octal is allowed to be read and written by its owner group and
+everyone else. Default access right octal is 666 but it can be
+changed by umask command.
+
+16. Sticky bit can be set with chmod -t FileName and will prevent from altering ...
+
+17. Execution needs to be allowed for a script to run.  
+
+
+
+
+
+
+
+
+
+
+
 
