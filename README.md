@@ -325,6 +325,69 @@ changed by umask command.
 17. Execution needs to be allowed for a script to run.  
 
 
+Task.Linux.3
+Part1
+
+1. Process can be in 5 differend states:
+	Running (R)
+	Sleeaping (S)
+	Uninterruptable sleep (D)
+	Stopped (S)
+	Zombie (Z)
+	
+2. -h option is used to highlight  the  current  process and its ancestors. 
+![](https://i.imgur.com/QDlntqw.png)
+
+3. Proc file is a virtual file system that's created on a start-up and removed on shutdown. It contains information about the processes that are currently running. It is used as a control center for the kernel. 
+
+4. ps -Flww -p PID
+![](https://i.imgur.com/OwrBgzh.png)
+
+5. ![](https://i.imgur.com/ZqNPkoj.png)
+
+6. Kernel processes are part of the Linux kernel and cannot be managed or killed by the user. User processes are ones initiated by the user. 
+
+7. ![](https://i.imgur.com/HprEWgB.png) 
+Processes can be in 5 different states. For example, r (running) means that task is currently being executed, d (uninterruptable sleep) most of the time process waiting for IO, z (zombie) means that the process stopped responding and could be closed by its parent process.
+
+8. ![](https://i.imgur.com/ISW0YcT.png)
+
+9. Some of the commands mentioned in ps man page: pgrep, pstree, top, proc.
+
+10. top displays information about most active processes (PID, process priority, state etc) and provides utilities for managing processes. 
+
+11. ![](https://i.imgur.com/Df3QkAG.png)
+
+12. Sort by most memory usage - Shift M or by CPU usage Shift P
+	Change the priority of the process or kill sending different signals to it K. 
+	
+13. ![](https://i.imgur.com/tPWna7r.png)
+
+14. nice and renice. Nice used when the process is started and renice to change the process priority. 
+
+15. Using Shift P command.
+
+16. kill send different signals to the process like SIGTERM(15) or SIKILL(9) and process will respond accordingly to them.
+
+17. Commands can be executed in the background of the shell. A job is a process that the shell manages. jobs command used to list all of the jobs.
+For example 
+![](https://i.imgur.com/twy4Bi1.png)
+
+ 
+Part2
+
+1. On windows ssh command and ssh-keygen behave the same way as on Linux system. With ssh user@host we can connect to the machine remotely and by ssh-keygen generate a public and private key for authentication. 
+
+![](https://i.imgur.com/hwHhvBt.jpg)
+
+2. Disable root login, disable password-based login, and restrict ssh access using iptables.
+![](https://i.imgur.com/tABK7bf.png)
+![](https://i.imgur.com/VOwiyjk.png)
+
+3. By using ssh-keygen -t we can specify the key type and choose from the following RSA
+ECDSA, ed25519. If no value is specified RSA key will be generated.
+
+![](https://i.imgur.com/ry0DEyM.png)
 
 
 
