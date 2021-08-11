@@ -5,7 +5,7 @@ usage() {
 }
 
 function all() {
-  sudo nmap -sn 192.168.0.0/24 | while read -r p || [ -n "$p" ]
+	sudo nmap -sn $(ip a | grep enp0s3 | grep -E -o "([0-9]{1,3}\.){3}[0-9]{1,3}/24") | while read -r p || [ -n "$p" ]
   do
     if [[ $p =~ ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?) ]]; then
       echo "$p" | cut -d ' ' -f 5-6
