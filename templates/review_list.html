@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block head%}
+    <title>Index Page</title>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <br>
+        <h1>List of reviews</h1>
+        <hr>
+    </div>
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            {% for review in review_list %}
+                <div class="col-md-4">
+                    <br>
+                    <h3>{{ review.title|truncatechars:22 }}</h3>
+                    <p>{{ review.review_text|truncatechars:200 }}</p>
+                    <p>Added:   {{ review.create_date|date:'M d Y' }} by {{ review.author }}</p>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-primary" href={% url 'review_detail'  pk=review.pk%} role="button">View details</a>
+                        {% if perms.django_books_app.change_review %}
+                            <a class="btn btn-primary" href={% url 'review_update'  pk=review.pk%} role="button">Update</a>
+                        {% endif %}
+                        {% if perms.django_books_app.delete_review %}
+                            <a class="btn btn-primary" href={% url 'review_delete'  pk=review.pk%} role="button">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                    <h2 >No reviews yet</h2>
+            {% endfor %}
+        </div>
+        <hr>
+    </div>
+{% endblock %}

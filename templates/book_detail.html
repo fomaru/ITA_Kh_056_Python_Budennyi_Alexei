@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block head%}
+    <title>Index Page</title>
+{% endblock %}
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="row">
+            <div col-md-8>
+                <div class="card mb-3 border rounded shadow-sm overflow-hidden">
+                    {% if book.check_for_file %}
+                        <img src={{ book.cover_img.url }} width="200" height="250">
+                    {% else %}
+                        <img src={{ book.cover_img}} width="200" height="250">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8 ml-5">
+                <h4 class="card-title">{{ book.title }}</h4>
+                <p>Authors:</p>
+                {% for author in book.authors.all %}
+                    <p class="card-text">{{ author }}</p>
+                {% endfor %}
+                <p>Added by: {{ book.added_by }}</p>
+                <hr>
+                <p>{{ book.description }}</p>
+                <hr>
+                <br>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a class="btn btn-primary" href={% url 'review_per_book_list' pk=book.pk%} role="button" aria-pressed="true">See reviews</a>
+                    {% if perms.django_books_app.add_review %}
+                        <a class="btn btn-primary" href={% url 'review_create' pk=book.pk%} role="button" aria-pressed="true">Write a review</a>
+                    {% endif %}
+                    {% if perms.django_books_app.add_book %}
+                        <a class="btn btn-primary" href={% url 'book_update' pk=book.pk %} role="button" aria-pressed="true">Edit</a>
+                    {% endif %}
+                    {% if perms.django_books_app.delete_book %}
+                        <a class="btn btn-primary" href={% url 'book_delete' pk=book.pk %} role="button" aria-pressed="true">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
