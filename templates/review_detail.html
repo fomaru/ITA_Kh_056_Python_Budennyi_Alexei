@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load martortags %}
+{% block head%}
+    <title>Review</title>
+
+    <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+    <link href="{% static 'plugins/css/resizable.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+    <link href="{% static 'plugins/css/bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+    <link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <br>
+        <h1>Review for "{{ review.book}}" - {{ review.title }}    </h1>
+        <p>Published {{ review.create_date|date:'M d, Y' }} by {{ review.author }}</p>
+        <hr>
+        <p>{{ review.review_text }}</p>
+        <hr>
+        <div class="container">
+            {% for i in comments %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <p>By <a href={% url 'user_detail' pk=i.author.pk %}>{{ i.author }}</a></p>
+                    </div>
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <div class="martor-preview">
+                                {{ i.comment_text|safe_markdown }}
+                            </div>
+                            <footer class="blockquote-footer">{{ i.create_date|date:'M d,Y' }}</footer>
+                        </blockquote>
+                    </div>
+                </div>
+            {% endfor %}
+            <form class='form' method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'plugins/js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'plugins/js/ace.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/mode-markdown.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/ext-language_tools.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/theme-github.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/typo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/spellcheck.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/resizable.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/emojis.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'martor/js/martor.bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+    <script>
+        $('.martor-preview pre').each(function(i, block){
+            hljs.highlightBlock(block);
+        });
+    </script>
+
+{% endblock %}

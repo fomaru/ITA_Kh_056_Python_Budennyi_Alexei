@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head%}
+    <title>Books</title>
+{% endblock %}
+{% block content %}
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Books</h1>
+                <p class="lead text-muted">Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Donec condimentum,
+                    dolor et commodo interdum, nisi mi ornare lacus,
+                    at scelerisque diam dui in risus. Sed vitae
+                    efficitur lectus, mattis viverra lorem.</p>
+            </div>
+        </div>
+    </section>
+    <div class="album">
+        <div class="container">
+            <div class="row">
+                {% for book in book_list %}
+                    <div class="col-md-6">
+                        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                            <div class="col p-4 d-flex flex-column position-static">
+                                <strong class="d-inline-block mb-2 text-success">New</strong>
+                                <h3 class="mb-0">{{ book.title|truncatechars:17}}</h3>
+                                <div class="mb-1 text-muted">{{ book.add_date|date:'M d' }}</div>
+                                <p class="card-text mb-auto">{{ book.description|truncatechars:80}}</p>
+                                <a href={% url 'book_detail' pk=book.pk %} class="stretched-link">Continue reading</a>
+                            </div>
+                            <div class="col-auto d-none d-lg-block">
+                                {% if book.check_for_file %}
+                                    <img src={{ book.cover_img.url }} width="200" height="250">
+                                {% else %}
+                                    <img src={{ book.cover_img}} width="200" height="250">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <h1 class="fw-light text-center">Results not found</h1>
+                {% endfor %}
+            </div>
+            <nav>
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                    {% endif %}
+                    <li class="page-item"><a class="page-link" href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</a></li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+{% endblock %}

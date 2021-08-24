@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block head%}
+    <title>Index Page</title>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <br>
+        <h1>Search results for: {{ query }}</h1>
+        <hr>
+        {% for book in book_list %}
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="col-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title}}</h5>
+                            {% for author in book.authors.all %}
+                                <p style="display:inline" class="card-text">{{ author }}</p>
+                            {% endfor %}
+                            {#                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card-body float-right">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-primary" href={% url 'book_detail' pk=book.pk %} role="button" aria-pressed="true">View</a>
+                                {% if perms.django_books_app.change_book %}
+                                    <a class="btn btn-primary" href={% url 'book_update' pk=book.pk %} role="button" aria-pressed="true">Edit</a>
+                                {% endif %}
+                                {% if perms.django_books_app.delete_book %}
+                                    <a class="btn btn-primary" href={% url 'book_delete' pk=book.pk %} role="button" aria-pressed="true">Delete</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+        <hr>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1&q={{ query }}">First</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ query }}">Previous</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</a></li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ query }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}">Last</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
